@@ -1,18 +1,32 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using Vidly.Models;
+using Vidly.ViewModels;
 using static System.String;
 
 namespace Vidly.Controllers
 {
     public class MoviesController : Controller
     {
+        //int _maxYear = DateTime.Now.Year;
         // GET: Movies/Random
         public ActionResult Random()
         {
-           var movie = new Movie() { Name = "Shrek"};
+            var movie = new Movie() { Name = "Shrek"};
+            var customers = new List<Customer>
+            {
+                new Customer {Name = "Gibban"},
+                new Customer {Name = "Alva"}
+            };
 
-            return View(movie);
+            var viewModel = new RandomMovieViewModel
+            {
+                Movie = movie,
+                Customers = customers
+            };
+
+            return View(viewModel);
         }
 
         public ActionResult Edit(int id)
@@ -33,5 +47,11 @@ namespace Vidly.Controllers
             }
             return Content($"pageIndex={pageIndex}&sortBy={sortBy}");
         }
+
+        [Route("movies/release/{year:max(2016)}/{month:regex(\\d{2}):range(1,12)}")]
+        public ActionResult ByReleaseDate(int year, int month)
+        {
+            return Content(year + "/" + month );
+        }   
     }
 }
