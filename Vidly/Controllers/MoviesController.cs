@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using Vidly.Models;
 using static System.String;
 
@@ -28,18 +29,9 @@ namespace Vidly.Controllers
 
             if (IsNullOrWhiteSpace(sortBy))
             {
-                sortBy = Empty;
+                sortBy = "Name";
             }
-            return Content(Format("pageIndex={0}&{1}"), pageIndex.ToString(), sortBy);
-            //return Content(String.Format("pageIndex={0}&sortBy{1}"), pageIndex.ToString(), sortBy);
-        }
-
-        public ActionResult Cat()
-        {
-            var movie = new Movie() { Name = "Shrek" };
-
-            return View(movie);
-            //return Content("hello world");
+            return Content($"pageIndex={pageIndex}&sortBy={sortBy}");
         }
     }
 }
